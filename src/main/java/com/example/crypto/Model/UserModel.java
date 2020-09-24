@@ -1,26 +1,23 @@
-package com.example.crypto.mongorepo;
+package com.example.crypto.Model;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.FieldType;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
-import javax.validation.constraints.NotBlank;
+import javax.annotation.processing.Generated;
 import java.util.UUID;
 
 @Document
 public class UserModel {
 
     @Id
-    private String Id;
+    private String recId;
     private String firstName;
     private String lastName;
     private String email;
     private String userName;
     private String password;
+
 
     public String getPassword() {
         return password;
@@ -43,11 +40,11 @@ public class UserModel {
     }
 
     public String getId() {
-        return Id;
+        return recId;
     }
 
     public void setId(String id) {
-        this.Id = id;
+        this.recId = id;
     }
 
     public String getFirstName() {
@@ -84,6 +81,6 @@ public class UserModel {
 
     @Override
     public String toString() {
-        return "Person [Id=" + Id + ", firstName=" + firstName + ", lastName=" + lastName + ",email" + email + ",userName" + userName + "]";
+        return "Person [Id=" + recId + ", firstName=" + firstName + ", lastName=" + lastName + ",email" + email + ",userName" + userName + "]";
     }
 }

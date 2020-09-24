@@ -1,13 +1,9 @@
 package com.example.crypto.Model;
 
-import com.example.crypto.mongorepo.UserModel;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.Collection;
 
 @Component
 public class JwtUserDetailsService {
