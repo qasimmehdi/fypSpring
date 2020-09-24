@@ -10,7 +10,7 @@ public class connection {
 
     public static MongoOperations get(){
         if(mongoOps == null){
-            mongoOps = new MongoTemplate(MongoClients.create(), "admin");
+            mongoOps = new MongoTemplate(MongoClients.create(), "fyp");
         }
         return mongoOps;
     }
