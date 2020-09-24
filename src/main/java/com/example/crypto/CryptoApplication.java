@@ -3,19 +3,19 @@ package com.example.crypto;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @SpringBootApplication
 public class CryptoApplication {
 
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-/*		MongoOperations mongoOps = new MongoTemplate(MongoClients.create(), "admin");
-		Query query = new Query();
-		query.addCriteria(Criteria.where("firstName").is("Shazad2"));
-		List<UserModel> users = mongoOps.find(query, UserModel.class);
-		System.out.println(users);*/
-		SpringApplication.run(CryptoApplication.class, args);
-	}
+        SpringApplication.run(CryptoApplication.class, args);
+    }
 
 }
