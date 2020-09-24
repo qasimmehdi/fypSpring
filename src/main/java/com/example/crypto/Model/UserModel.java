@@ -1,11 +1,8 @@
 package com.example.crypto.Model;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.annotation.processing.Generated;
-import java.util.UUID;
 
 @Document
 public class UserModel {
