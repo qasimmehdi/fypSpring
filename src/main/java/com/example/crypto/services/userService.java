@@ -3,6 +3,7 @@ package com.example.crypto.services;
 import com.example.crypto.DAO.UserDao;
 import com.example.crypto.Model.UserModel;
 import com.example.crypto.mongorepo.connection;
+import org.apache.catalina.User;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -43,11 +44,21 @@ public class userService implements UserDao {
 
     @Override
     public UserModel saveUSer(UserModel a) {
+
         return this.mo.save(a);
     }
 
     @Override
     public boolean updateUser(String id, UserModel a) {
         return false;
+    }
+
+    public boolean isExist(UserModel a){
+        Query query = new Query();
+        Criteria cr = new Criteria();
+        cr.orOperator(Criteria.where("userName").is(a.getUserName()),Criteria.where("email").is(a.getEmail()));
+        query.addCriteria(cr);
+        UserModel um = this.mo.findOne(query,UserModel.class,"userModel");
+        return !(um == null);
     }
 }
