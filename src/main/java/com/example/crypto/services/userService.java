@@ -25,9 +25,16 @@ public class userService implements UserDao {
     }
 
     @Override
-    public UserModel getByCredentials(String user, String pass) {
+    public UserModel getByCredentials(String user, String pass,String email) {
+        if((user == null || email == null) && pass == null){
+            return null;
+        }
+
+        Criteria cr = new Criteria();
+        cr.orOperator(Criteria.where("userName").is(user).and("password").is(pass),
+                Criteria.where("email").is(email).and("password").is(pass));
         Query query = new Query();
-        query.addCriteria(Criteria.where("userName").is(user).and("password").is(pass));
+        query.addCriteria(cr);
 
         return mo.findOne(query,UserModel.class);
     }
@@ -51,6 +58,38 @@ public class userService implements UserDao {
     @Override
     public boolean updateUser(String id, UserModel a) {
         return false;
+    }
+
+    @Override
+    public UserModel addEmail(String user,String email) {
+        Query q = new Query();
+        q.addCriteria(Criteria.where("userName").is(user));
+        UserModel us = this.mo.findOne(q,UserModel.class);
+        us.setEmail(email);
+        return this.mo.save(us);
+    }
+
+    @Override
+    public UserModel isEmailExist(String email) {
+        Query q = new Query();
+        q.addCriteria(Criteria.where("email").is(email));
+        return this.mo.findOne(q,UserModel.class);
+    }
+
+    @Override
+    public void setCode(String email,String code) {
+        Query q = new Query();
+        q.addCriteria(Criteria.where("email").is(email));
+        UserModel a = this.mo.findOne(q,UserModel.class);
+        a.setCode(code);
+        this.mo.save(a);
+    }
+
+    @Override
+    public UserModel checkCode(String code) {
+        Query q = new Query();
+        q.addCriteria(Criteria.where("code").is(code));
+        return this.mo.findOne(q,UserModel.class);
     }
 
     public boolean isExist(UserModel a){

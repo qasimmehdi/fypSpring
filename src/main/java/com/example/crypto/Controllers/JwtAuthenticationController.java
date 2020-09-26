@@ -3,10 +3,7 @@ package com.example.crypto.Controllers;
 import java.util.Objects;
 
 import com.example.crypto.JWT.JwtTokenUtil;
-import com.example.crypto.Model.JwtRequest;
-import com.example.crypto.Model.JwtResponse;
-import com.example.crypto.Model.JwtUserDetailsService;
-import com.example.crypto.Model.UserModel;
+import com.example.crypto.Model.*;
 import com.example.crypto.services.userService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -43,11 +40,13 @@ public class JwtAuthenticationController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
         final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getUsername());
+                .loadUserByUsername(authenticationRequest.getUsername() == null ?
+                        authenticationRequest.getEmail() :
+                        authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
 
-        if(us.getByCredentials(authenticationRequest.getUsername(),authenticationRequest.getPassword()) == null){
-            return new ResponseEntity<String>("Not Found", HttpStatus.UNAUTHORIZED);
+        if(us.getByCredentials(authenticationRequest.getUsername(),authenticationRequest.getPassword(),authenticationRequest.getEmail()) == null){
+            return new ResponseEntity<ErrorModel>(new ErrorModel("User Not Found"), HttpStatus.UNAUTHORIZED);
         }
         else{
             return ResponseEntity.ok(new JwtResponse(token));

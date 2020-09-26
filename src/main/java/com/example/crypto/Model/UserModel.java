@@ -3,6 +3,8 @@ package com.example.crypto.Model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.Valid;
+
 
 @Document
 public class UserModel {
@@ -14,6 +16,7 @@ public class UserModel {
     private String email;
     private String userName;
     private String password;
+    private String code;
 
 
     public String getPassword() {
@@ -24,17 +27,27 @@ public class UserModel {
         this.password = password;
     }
 
-    public UserModel(String f, String l, String e, String u) {
+    public UserModel(String f, String l, String e, String u, String c) {
         firstName = f;
         lastName = l;
         email = e;
         userName = u;
+        code = c;
     }
-
 
     public UserModel() {
 
     }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+
 
     public String getId() {
         return recId;
@@ -53,10 +66,11 @@ public class UserModel {
     }
 
     public String getLastName() {
+
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(String lastName){
         this.lastName = lastName;
     }
 
