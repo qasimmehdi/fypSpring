@@ -26,4 +26,6 @@ public interface UserDao {
     void setCode(String email,String code);
 
     UserModel checkCode(String code);
+
+    UserModel getByid(String id);
 }

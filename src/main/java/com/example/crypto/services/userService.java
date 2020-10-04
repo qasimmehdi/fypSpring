@@ -4,6 +4,7 @@ import com.example.crypto.DAO.UserDao;
 import com.example.crypto.Model.UserModel;
 import com.example.crypto.mongorepo.connection;
 import org.apache.catalina.User;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -89,6 +90,13 @@ public class userService implements UserDao {
     public UserModel checkCode(String code) {
         Query q = new Query();
         q.addCriteria(Criteria.where("code").is(code));
+        return this.mo.findOne(q,UserModel.class);
+    }
+
+    @Override
+    public UserModel getByid(String id) {
+        Query q = new Query();
+        q.addCriteria(Criteria.where("userId").is(id));
         return this.mo.findOne(q,UserModel.class);
     }
 

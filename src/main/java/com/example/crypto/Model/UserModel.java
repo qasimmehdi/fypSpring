@@ -3,20 +3,32 @@ package com.example.crypto.Model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.annotation.Generated;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 
 @Document
 public class UserModel {
 
     @Id
-    private String recId;
+    private String id;
+
+
+    private String userId;
+    @NotBlank
     private String firstName;
+    @NotBlank
     private String lastName;
+    @NotBlank
     private String email;
+    @NotBlank
     private String userName;
+    @NotBlank
     private String password;
     private String code;
+    private Boolean isEmailVerified;
+
 
 
     public String getPassword() {
@@ -27,16 +39,25 @@ public class UserModel {
         this.password = password;
     }
 
-    public UserModel(String f, String l, String e, String u, String c) {
+    public UserModel(String f, String l, String e, String u, String c, boolean v) {
         firstName = f;
         lastName = l;
         email = e;
         userName = u;
         code = c;
+        isEmailVerified = v;
     }
 
     public UserModel() {
 
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getCode() {
@@ -47,14 +68,20 @@ public class UserModel {
         this.code = code;
     }
 
+    public Boolean getEmailVerified() {
+        return isEmailVerified;
+    }
 
+    public void setEmailVerified(Boolean emailVerified) {
+        isEmailVerified = emailVerified;
+    }
 
     public String getId() {
-        return recId;
+        return id;
     }
 
     public void setId(String id) {
-        this.recId = id;
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -92,6 +119,6 @@ public class UserModel {
 
     @Override
     public String toString() {
-        return "Person [Id=" + recId + ", firstName=" + firstName + ", lastName=" + lastName + ",email" + email + ",userName" + userName + "]";
+        return "Person [Id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ",email" + email + ",userName" + userName + "]";
     }
 }
