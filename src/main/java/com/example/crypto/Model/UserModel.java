@@ -16,9 +16,9 @@ public class UserModel {
 
 
     private String userId;
-    @NotBlank
+
     private String firstName;
-    @NotBlank
+
     private String lastName;
     @NotBlank
     private String email;
