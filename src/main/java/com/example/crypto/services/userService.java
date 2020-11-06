@@ -61,6 +61,13 @@ public class userService implements UserDao {
         return false;
     }
 
+
+    public UserModel updateUserByid(String id, UserModel a) {
+        Query q = new Query();
+        q.addCriteria(Criteria.where("userId").is(id));
+        return this.mo.save(this.mo.findOne(q,UserModel.class));
+    }
+
     @Override
     public UserModel addEmail(String user,String email) {
         Query q = new Query();
@@ -84,6 +91,14 @@ public class userService implements UserDao {
         UserModel a = this.mo.findOne(q,UserModel.class);
         a.setCode(code);
         this.mo.save(a);
+    }
+
+    public String getUseridbyUserNameorEmail(String userName){
+        Query q = new Query();
+        Criteria cr = new Criteria();
+        cr.orOperator(Criteria.where("userName").is(userName),Criteria.where("email").is(userName));
+        q.addCriteria(cr);
+        return  this.mo.findOne(q,UserModel.class).getUserId();
     }
 
     @Override

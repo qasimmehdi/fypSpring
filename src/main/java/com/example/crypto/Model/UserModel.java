@@ -1,5 +1,6 @@
 package com.example.crypto.Model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -24,9 +25,14 @@ public class UserModel {
     private String email;
     @NotBlank
     private String userName;
-    @NotBlank
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String code;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Boolean isEmailVerified;
 
 
