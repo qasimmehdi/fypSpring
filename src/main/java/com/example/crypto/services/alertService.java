@@ -33,9 +33,9 @@ public class alertService implements AlertDao {
     }
 
     @Override
-    public DistinctIterable<AlertModel> getAllDistinct(){
+    public List<AlertModel> getAllDistinct(){
         Query q = new Query();
-        return this.mo.getCollection("alertModel").distinct("currencyName",AlertModel.class);
+        return this.mo.findDistinct("pair",AlertModel.class,AlertModel.class);
     }
 
     @Override

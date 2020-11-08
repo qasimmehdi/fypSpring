@@ -35,7 +35,8 @@ public class AlertController {
     public ResponseEntity<?> save(@RequestHeader("Authorization") String token,@Valid @RequestBody AlertModel am) throws IOException {
         String id = this.jwt.getIdFromToken(token.split(" ")[1]);
         am.setUserId(id);
-        boolean subscribed = this.fs.SubscribeToTopic(am.getToken(),"cryptassist-" + am.getCurrencyName());
+        am.setPair(am.getCurrencyName() + "-" + am.getCurrencyPair());
+        boolean subscribed = this.fs.SubscribeToTopic(am.getToken(),"cryptassist-" + am.getPair());
         if(this.as.Existed(id,am.getCurrencyName()).stream().count() > 0){
             return new ResponseEntity<String>("Already Subscribed", HttpStatus.resolve(409));
         }
@@ -51,6 +52,7 @@ public class AlertController {
     @GetMapping
     public List<AlertModel> getall(@RequestHeader("Authorization") String token){
         String id = this.jwt.getIdFromToken(token.split(" ")[1]);
+
         return this.as.getAll(id);
     }
 }

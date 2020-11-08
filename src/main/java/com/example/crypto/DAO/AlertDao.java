@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface AlertDao {
     AlertModel save(AlertModel am);
     List<AlertModel> getAll(String id);
-    DistinctIterable<AlertModel> getAllDistinct();
+    List<AlertModel> getAllDistinct();
     List<AlertModel> Existed(String id,String curr);
 }

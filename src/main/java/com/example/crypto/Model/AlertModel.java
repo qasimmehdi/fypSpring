@@ -22,7 +22,18 @@ public class AlertModel {
     private String token;
 
     @NotBlank
+    @JsonProperty("base")
     private String currencyName;
+
+
+    @NotBlank
+    @JsonProperty("quote")
+    private String currencyPair;
+
+    @JsonIgnore
+    private String pair;
+
+
 
     public String getId() {
         return id;
@@ -34,6 +45,14 @@ public class AlertModel {
 
     public String getUserId() {
         return userId;
+    }
+
+    public String getPair() {
+        return pair;
+    }
+
+    public void setPair(String pair) {
+        this.pair = pair;
     }
 
     public void setUserId(String userId) {
@@ -65,6 +84,4 @@ public class AlertModel {
         this.currencyPair = currencyPair;
     }
 
-    @NotBlank
-    private String currencyPair;
 }

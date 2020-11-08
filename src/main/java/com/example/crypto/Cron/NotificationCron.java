@@ -23,7 +23,7 @@ public class NotificationCron {
     @Autowired
     private fcmService fs;
 
-    @Scheduled(cron = "0 */12 * * * *")
+    @Scheduled(cron = "0 0/30 8-20 * * *")
     public void sendnotifications() throws Exception {
         NotificationModel nm = new NotificationModel();
         Message m = new Message();
@@ -33,7 +33,7 @@ public class NotificationCron {
             d.setTitle(x.getCurrencyName());
             d.setBody("Upto $5");
             m.setNotification(d);
-            m.setTopic("cryptassist-"+x.getCurrencyName());
+            m.setTopic("cryptassist-"+x.getPair());
             nm.setMessage(m);
             try {
                 fs.SendNotificationToTopic(nm);
