@@ -11,4 +11,5 @@ public interface AlertDao {
     List<AlertModel> getAll(String id);
     List<AlertModel> getAllDistinct();
     List<AlertModel> Existed(String id,String curr);
+    void Delete(String id,String pair);
 }

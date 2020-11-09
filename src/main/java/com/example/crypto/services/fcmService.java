@@ -23,7 +23,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Service
@@ -49,6 +50,29 @@ public class fcmService {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.set("Authorization", "Bearer "+secret);
         HttpEntity request = new HttpEntity(headers);
+
+        ResponseEntity<Post> re = this.restTemplate.postForEntity(url,request, Post.class);
+
+        if(re.getStatusCode() != HttpStatus.BAD_REQUEST){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean unSubscribeTopic(String topic, String Token){
+        String url = "https://iid.googleapis.com/iid/v1:batchRemove";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Authorization", "Bearer "+secret);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("to","/topics/"+topic);
+        map.put("registration_tokens",new String[]{Token});
+
+
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(map,headers);
 
         ResponseEntity<Post> re = this.restTemplate.postForEntity(url,request, Post.class);
 

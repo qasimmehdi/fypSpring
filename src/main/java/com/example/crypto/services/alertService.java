@@ -44,4 +44,11 @@ public class alertService implements AlertDao {
         q.addCriteria(Criteria.where("userId").is(id).and("currencyName").is(curr));
         return this.mo.find(q,AlertModel.class);
     }
+
+    @Override
+    public void Delete(String id, String pair) {
+        Query q = new Query();
+        q.addCriteria(Criteria.where("userId").is(id).and("pair").is(pair));
+        this.mo.findAndRemove(q,AlertModel.class);
+    }
 }

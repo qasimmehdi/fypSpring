@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -54,5 +56,22 @@ public class AlertController {
         String id = this.jwt.getIdFromToken(token.split(" ")[1]);
 
         return this.as.getAll(id);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteAlert(@RequestHeader("Authorization") String token,@Valid @RequestBody AlertModel am){
+        String id = this.jwt.getIdFromToken(token.split(" ")[1]);
+        am.setPair(am.getCurrencyName() + "-" + am.getCurrencyPair());
+        this.as.Delete(id,am.getPair());
+        Map<String, Object> map = new HashMap<>();
+        if(this.fs.unSubscribeTopic("cryptassist-"+am.getPair(), am.getToken())) {
+            map.put("message", "deleted and unsubscribed");
+            return new ResponseEntity<Map<String,Object>>(map,HttpStatus.resolve(200));
+        }
+        else{
+            map.put("error", "something went wrong");
+            return new ResponseEntity<Map<String,Object>>(map,HttpStatus.resolve(500));
+        }
+
     }
 }
