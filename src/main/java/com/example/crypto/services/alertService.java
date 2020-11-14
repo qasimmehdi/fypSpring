@@ -39,9 +39,9 @@ public class alertService implements AlertDao {
     }
 
     @Override
-    public List<AlertModel> Existed(String id,String curr){
+    public List<AlertModel> Existed(String id,String curr,String quote){
         Query q = new Query();
-        q.addCriteria(Criteria.where("userId").is(id).and("currencyName").is(curr));
+        q.addCriteria(Criteria.where("userId").is(id).and("currencyName").is(curr).and("currencyPair").is(quote));
         return this.mo.find(q,AlertModel.class);
     }
 

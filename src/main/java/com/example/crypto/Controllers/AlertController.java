@@ -35,11 +35,11 @@ public class AlertController {
 
     @PostMapping
     public ResponseEntity<?> save(@RequestHeader("Authorization") String token,@Valid @RequestBody AlertModel am) throws IOException {
-        String id = this.jwt.getIdFromToken(token.split(" ")[1]);
+        String id = this.jwt.getIdFromToken(token.replace("Bearer ",""));
         am.setUserId(id);
         am.setPair(am.getCurrencyName() + "-" + am.getCurrencyPair());
         boolean subscribed = this.fs.SubscribeToTopic(am.getToken(),"cryptassist-" + am.getPair());
-        if(this.as.Existed(id,am.getCurrencyName()).stream().count() > 0){
+        if(this.as.Existed(id,am.getCurrencyName(),am.getCurrencyPair()).stream().count() > 0){
             return new ResponseEntity<String>("Already Subscribed", HttpStatus.resolve(409));
         }
        else if(subscribed){
@@ -62,14 +62,14 @@ public class AlertController {
 
     @GetMapping
     public List<AlertModel> getall(@RequestHeader("Authorization") String token){
-        String id = this.jwt.getIdFromToken(token.split(" ")[1]);
+        String id = this.jwt.getIdFromToken(token.replace("Bearer ",""));
 
         return this.as.getAll(id);
     }
 
     @DeleteMapping
     public ResponseEntity<?> deleteAlert(@RequestHeader("Authorization") String token,@Valid @RequestBody AlertModel am){
-        String id = this.jwt.getIdFromToken(token.split(" ")[1]);
+        String id = this.jwt.getIdFromToken(token.replace("Bearer ",""));
         am.setPair(am.getCurrencyName() + "-" + am.getCurrencyPair());
         this.as.Delete(id,am.getPair());
         Map<String, Object> map = new HashMap<>();

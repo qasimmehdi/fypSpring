@@ -10,6 +10,6 @@ public interface AlertDao {
     AlertModel save(AlertModel am);
     List<AlertModel> getAll(String id);
     List<AlertModel> getAllDistinct();
-    List<AlertModel> Existed(String id,String curr);
+    List<AlertModel> Existed(String id,String curr,String quote);
     void Delete(String id,String pair);
 }
