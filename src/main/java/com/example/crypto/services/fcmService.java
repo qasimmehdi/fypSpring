@@ -86,7 +86,7 @@ public class fcmService {
 
     public boolean SendNotificationToTopic(NotificationModel nm) throws IOException {
         String url = "https://fcm.googleapis.com/v1/projects/cryptassist-fbe9f/messages:send";
-        FileInputStream serviceAccount = new FileInputStream(System.getProperty("user.dir")+"\\"+firebaseConfigPath);
+        FileInputStream serviceAccount = new FileInputStream(System.getProperty("user.dir")+"/"+firebaseConfigPath);
         GoogleCredential googleCred = GoogleCredential.fromStream(serviceAccount);
         GoogleCredential scoped = googleCred.createScoped(
                 Arrays.asList(
