@@ -43,6 +43,15 @@ public class AlertController {
             return new ResponseEntity<String>("Already Subscribed", HttpStatus.resolve(409));
         }
        else if(subscribed){
+            NotificationModel nm = new NotificationModel();
+            Message m = new Message();
+            Body d = new Body();
+            d.setTitle("Success");
+            d.setBody("You are successfully subscribe to "+am.getPair());
+            m.setNotification(d);
+            m.setTopic("cryptassist-" + am.getPair());
+            nm.setMessage(m);
+           this.fs.SendNotificationToTopic(nm);
             return new ResponseEntity<AlertModel>(this.as.save(am), HttpStatus.resolve(200));
         }
         else{
