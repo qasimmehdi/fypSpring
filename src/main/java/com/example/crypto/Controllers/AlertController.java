@@ -5,6 +5,7 @@ import com.example.crypto.Model.AlertModel;
 import com.example.crypto.Model.FCM.Body;
 import com.example.crypto.Model.FCM.Message;
 import com.example.crypto.Model.FCM.NotificationModel;
+import com.example.crypto.Model.PairModel;
 import com.example.crypto.services.alertService;
 import com.example.crypto.services.fcmService;
 import com.example.crypto.services.userService;
@@ -38,6 +39,11 @@ public class AlertController {
         String id = this.jwt.getIdFromToken(token.replace("Bearer ",""));
         am.setUserId(id);
         am.setPair(am.getCurrencyName() + "-" + am.getCurrencyPair());
+
+        PairModel p  = new PairModel();
+        p.setPair(am.getCurrencyName() + "-" + am.getCurrencyPair());
+        this.as.savePair(p);
+
         boolean subscribed = this.fs.SubscribeToTopic(am.getToken(),"cryptassist-" + am.getPair());
         if(this.as.Existed(id,am.getCurrencyName(),am.getCurrencyPair()).stream().count() > 0){
             return new ResponseEntity<String>("Already Subscribed", HttpStatus.resolve(409));

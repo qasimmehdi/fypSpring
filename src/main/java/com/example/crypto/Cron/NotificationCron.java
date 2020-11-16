@@ -8,6 +8,7 @@ import com.example.crypto.Model.FCM.NotificationModel;
 import com.example.crypto.services.alertService;
 import com.example.crypto.services.fcmService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -20,32 +21,10 @@ public class NotificationCron {
     private alertService as;
 
 
-    @Autowired
-    private fcmService fs;
 
-    @Scheduled(cron = "0 0/30 8-20 * * *")
-    public void sendnotifications() throws Exception {
-        NotificationModel nm = new NotificationModel();
-        Message m = new Message();
-        Body d = new Body();
 
-        as.getAllDistinct().forEach(x -> {
-            d.setTitle(x.getCurrencyName());
-            d.setBody("Upto $5");
-            m.setNotification(d);
-            m.setTopic("cryptassist-"+x.getPair());
-            nm.setMessage(m);
-            try {
-                fs.SendNotificationToTopic(nm);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException ie) {
-                Thread.currentThread().interrupt();
-            }
-        });
+    @Scheduled(cron = "0 * * * * *")
+    public void sendnotificationsJob() {
+        this.as.sendNotifcations();
     }
 }
