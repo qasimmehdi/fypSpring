@@ -23,7 +23,7 @@ public class NotificationCron {
 
 
 
-    @Scheduled(cron = "0 0/30 8-20 * * *")
+    @Scheduled(cron = "0 0 13,19 * * ?")
     public void sendnotificationsJob() {
         this.as.sendNotifcations();
     }
