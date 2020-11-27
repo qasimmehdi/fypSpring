@@ -24,7 +24,7 @@ public class cmcService {
                 .build();
     }
 
-    public Flux<CoinInfo> getDetails(int limit){
+    public Mono<CoinInfo> getDetails(int limit){
        return this.client.get()
                .uri(uriBuilder ->
                    uriBuilder.path("/listings/latest")
@@ -33,7 +33,7 @@ public class cmcService {
                )
                .header("X-CMC_PRO_API_KEY",apiKey)
                .retrieve()
-               .bodyToFlux(CoinInfo.class);
+               .bodyToMono(CoinInfo.class);
     }
 
 

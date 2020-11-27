@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class CoinsController {
     private cmcService service;
 
     @GetMapping("get")
-    public Flux<CoinInfo> getCoins(@RequestParam(required = false) String limit){
+    public Mono<CoinInfo> getCoins(@RequestParam(required = false) String limit){
 
         if(limit == null){
             limit = "10";
