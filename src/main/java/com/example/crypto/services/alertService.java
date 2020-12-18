@@ -2,22 +2,25 @@ package com.example.crypto.services;
 
 import com.example.crypto.DAO.AlertDao;
 import com.example.crypto.Model.AlertModel;
+import com.example.crypto.Model.CMC.SymbolInfo;
 import com.example.crypto.Model.FCM.Body;
 import com.example.crypto.Model.FCM.Message;
 import com.example.crypto.Model.FCM.NotificationModel;
 import com.example.crypto.Model.PairModel;
 import com.example.crypto.mongorepo.connection;
-import com.mongodb.client.DistinctIterable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class alertService implements AlertDao {
@@ -26,6 +29,9 @@ public class alertService implements AlertDao {
 
     @Autowired
     private fcmService fs;
+
+    @Autowired
+    private cmcService cmcservice;
 
     @Override
     public AlertModel save(AlertModel am) {
@@ -85,8 +91,26 @@ public class alertService implements AlertDao {
         Body d = new Body();
         this.getPairs().forEach(x -> {
             System.out.println(x.getPair());
+            //for getting change
+            String[] pair = x.getPair().split("-");
+            Mono<SymbolInfo> data = cmcservice.getSymbolChange(pair[0],pair[1]);
+            DecimalFormat df = new DecimalFormat("#.####");
+            String change = "";
+            String quoteprice = "";
+
+            Map<String, Map<String,Object>> quote = null;
+            try{
+                quote = (Map) data.block().getData().get(pair[0]).get("quote");
+                quoteprice = df.format((Double) quote.get(pair[1]).get("price"));
+                change = df.format((Double) quote.get(pair[1]).get("percent_change_1h"));
+
+            }
+            catch (Exception e){
+
+            }
+            // end fetching data
             d.setTitle(x.getPair());
-            d.setBody("Upto $5");
+            d.setBody(x.getPair() + ": "+ quoteprice +"\n" + "Change: " + change + "%");
             m.setNotification(d);
             m.setTopic("cryptassist-"+x.getPair());
             nm.setMessage(m);

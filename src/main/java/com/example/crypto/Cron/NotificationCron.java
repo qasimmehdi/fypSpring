@@ -6,6 +6,7 @@ import com.example.crypto.Model.FCM.Body;
 import com.example.crypto.Model.FCM.Message;
 import com.example.crypto.Model.FCM.NotificationModel;
 import com.example.crypto.services.alertService;
+import com.example.crypto.services.cmcService;
 import com.example.crypto.services.fcmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,7 +20,6 @@ public class NotificationCron {
 
     @Autowired
     private alertService as;
-
 
 
 
