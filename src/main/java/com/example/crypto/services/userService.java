@@ -115,12 +115,20 @@ public class userService implements UserDao {
         return this.mo.findOne(q,UserModel.class);
     }
 
-    public boolean isExist(UserModel a){
+    public int isExist(UserModel a){
         Query query = new Query();
-        Criteria cr = new Criteria();
-        cr.orOperator(Criteria.where("userName").is(a.getUserName()),Criteria.where("email").is(a.getEmail()));
-        query.addCriteria(cr);
+        query.addCriteria(Criteria.where("userName").is(a.getUserName()));
         UserModel um = this.mo.findOne(query,UserModel.class,"userModel");
-        return !(um == null);
+        UserModel em = isEmailExist(a.getEmail());
+
+        if(um != null){
+            return 1;
+        }
+        else if(em != null){
+            return 2;
+        }
+        else{
+            return 0;
+        }
     }
 }
