@@ -1,5 +1,8 @@
 package com.example.crypto.Controllers;
 
+
+import com.example.crypto.ML.LinearRegression;
+import com.example.crypto.ML.LinearRegressionClassifier;
 import com.example.crypto.Model.ErrorModel;
 import com.example.crypto.Model.UserModel;
 import com.example.crypto.mongorepo.connection;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,5 +54,29 @@ public class RegisterController {
             es.verifymail(a.getEmail(),a.getUserId());
             return new ResponseEntity<UserModel>(this.us.saveUSer(a), HttpStatus.resolve(200));
         }
+    }
+
+    @GetMapping
+    public Double get(){
+        ArrayList<Double> XData = new ArrayList<>() ;
+        ArrayList<Double> YData = new ArrayList<>() ;
+
+        XData.add( 2015.0 ) ;
+        XData.add( 2016.0 ) ;
+        XData.add( 2017.0 ) ;
+        XData.add( 2018.0 ) ;
+        XData.add( 2019.0 ) ;
+
+        YData.add( 2000.0 ) ;
+        YData.add( 1100.0 ) ;
+        YData.add( 800.0 ) ;
+        YData.add( 1800.0 ) ;
+        YData.add( 4000.0 ) ;
+
+        double[] x = new double[]{9,10,11,12,13};
+        double[] y = new double[]{117,128,137,147,140};
+
+        LinearRegression o = new LinearRegression(x,y);
+        return  o.predict(14);
     }
 }
